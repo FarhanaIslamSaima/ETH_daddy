@@ -34,12 +34,30 @@ describe("ETHDaddy", () => {
    expect(result).to.equal(deployer.address)
 
 })
+it('return max supply',async()=>{
+  let result=await ethDaddy.maxSupply();
+  expect(result).to.be.equal(1);
+})
+
  describe('testing list',async()=>{
   it('setup domain list',async()=>{
-    let domains=await ethDaddy.domains(1);
+    let domains=await ethDaddy.getDomain(1);
     expect(domains.name).to.be.equal('jackEth')
     expect(domains.cost).to.be.equal(tokens(10))
-    expect(domains.flag).to.be.equal(false)
+    expect(domains.isOwned).to.be.equal(false)
+  })
+ })
+ describe('Minting',async()=>{
+  const ID=1;
+  const amount=ethers.utils.parseUnits("10",'ether')
+  
+  beforeEach(async()=>{
+    const transaction=await ethDaddy.connect(owner).mint(ID)
+    await transaction.wait();
+  })
+  it('update the owner',async()=>{
+     const owner1=await ethDaddy.ownerOf(ID);
+     expect(owner1).to.be.equal(owner.address);
   })
  })
 
