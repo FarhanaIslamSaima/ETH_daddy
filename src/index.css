@@ -101,12 +101,12 @@ nav {
 /* -- HEADER -- */
 
 header {
-  background-image: url("./assets/browser.svg");
+  
   background-size: contain;
   background-position: right;
   background-repeat: no-repeat;
   background-color: var(--clr-grey);
-  min-height: 50vh;
+  
 
   position: relative;
 }
