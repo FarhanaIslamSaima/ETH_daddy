@@ -32,6 +32,7 @@ function App() {
   const [account,setAccount]=useState(null);
   const [provider,setProvider]=useState(null)
   const [ethDaddy,setEthdaddy]=useState(null)
+  const[domains,setDomains]=useState([])
   const loadBlockChainData=async()=>{
     const provider=new ethers.providers.Web3Provider(window.ethereum);
     setProvider(provider);
@@ -44,7 +45,14 @@ function App() {
   
     const maxSupply=await ethDaddy.maxSupply();
 console.log('hi')
+const domains=[];
     console.log(maxSupply.toString());
+    for(var i=0;i<=maxSupply;i++){
+      const domain=await ethDaddy.getDomain(i);
+      domains.push(domain)
+      setDomains(domains);
+    }
+    console.log(domains);
 
     window.ethereum.on('Changed account',async()=>{
       const accounts=await window.ethereum.request({'method':'eth_requestAccounts'});
@@ -56,10 +64,12 @@ console.log('hi')
     })
 
   }
+  
   useEffect(()=>{
     loadBlockChainData()
 
   },[])
+  
 
   return (
     <div>
@@ -71,6 +81,9 @@ console.log('hi')
      <Typography>Own your custom username,use it accross services,and be able to store an avatar and other profile data</Typography>
      </Box>
      <hr/>
+     {domains.map((domain,index)=>(
+      <Domain domain={domain} ethDaddy={ethDaddy} provider={provider} id={index+1}></Domain>
+     ))}
 
     </div>
   );
