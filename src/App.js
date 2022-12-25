@@ -18,7 +18,8 @@ const useStyle=makeStyles({
     justifyContent:'center',
     alignItems:'center',
     flexDirection:'column',
-    marginTop:'20px'
+    marginTop:'20px',
+    padding:'10px'
   },
   header:{
     fontWeight:'bold'
