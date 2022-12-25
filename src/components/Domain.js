@@ -18,11 +18,20 @@ const useStyle=makeStyles({
 const Domain = ({ domain, ethDaddy, provider, id }) => {
   const classes=useStyle()
 console.log(domain.name)
+const buyHandle=async()=>{
+  const signer=await provider.getSigner();
+  console.log(signer)
+  const transaction=await ethDaddy.connect(signer).mint(id,{value:domain.cost,gasLimit:3e7})
+  await transaction.wait();
+
+
+
+}
   return (
     <Card className={classes.container}>
       <Typography>{domain.name}</Typography>
       <Typography>{ethers.utils.formatUnits(domain.cost.toString(),'ether')}</Typography>
-      <Button variant={'contained'} color={'primary'} style={{background:'black',borderRadius:'none'}}>Buy</Button>
+      <Button onClick={buyHandle} variant={'contained'} color={'primary'} style={{background:'black',borderRadius:'none'}}>Buy</Button>
 
 
     </Card>
