@@ -30,6 +30,36 @@ const useStyle=makeStyles({
 function App() {
   const Classes=useStyle()
   const [account,setAccount]=useState(null);
+  const [provider,setProvider]=useState(null)
+  const [ethDaddy,setEthdaddy]=useState(null)
+  const loadBlockChainData=async()=>{
+    const provider=new ethers.providers.Web3Provider(window.ethereum);
+    setProvider(provider);
+    const network =await provider.getNetwork();
+  
+
+    const ethDaddy=new ethers.Contract(config[network.chainId].ETHDaddy.address,ETHDaddy,provider);
+    
+    setEthdaddy(ethDaddy)
+  
+    const maxSupply=await ethDaddy.maxSupply();
+console.log('hi')
+    console.log(maxSupply.toString());
+
+    window.ethereum.on('Changed account',async()=>{
+      const accounts=await window.ethereum.request({'method':'eth_requestAccounts'});
+      const account= ethers.utils.getAddress(accounts[0]);
+      setAccount(account)
+      console.log(account);
+
+
+    })
+
+  }
+  useEffect(()=>{
+    loadBlockChainData()
+
+  },[])
 
   return (
     <div>
